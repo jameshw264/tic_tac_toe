@@ -21,7 +21,17 @@ const display_controller = (() => {
     }
     const change_display_id = function (item, index) {
         document.getElementById(index).textContent = item;
+    }
 
+    const change_turn = (turn) => {
+        console.log(turn)
+        const turn_container = document.querySelector('.turn');
+        if (turn == 'player1'){
+            turn_container.textContent = 'Turn: Player 1'
+        } else {
+            turn_container.textContent = 'Turn: Player 2'
+        }
+        
     }
     const game_board = game_board_object.game_board;
     const boxes = document.querySelectorAll('.box');
@@ -32,7 +42,8 @@ const display_controller = (() => {
     })
     
     return {
-        change_display
+        change_display,
+        change_turn
     };
 })();
 
@@ -49,6 +60,7 @@ const player = (sign) => {
             }
         }
         game_board_object.change_board(game_board);
+        display_controller.change_turn(turn);
     }
     return {sign, place_sign}
 };
@@ -60,8 +72,10 @@ const game_controller = (() => {
     } else {
         turn = 'player2'
     }
+    display_controller.change_turn(turn);
     const player1 = player('X');
     const player2 = player('O');
+    
     const perform_go = (id) => {
         if (game_end == 0){
             if (turn == 'player1'){
@@ -101,6 +115,7 @@ const game_controller = (() => {
             window.onclick = function(event) {
                 if (event.target == modal) {
                   modal.style.display = "none";
+                  location.reload()
                 }
               }
         } else if (spaces == 9){
@@ -113,14 +128,11 @@ const game_controller = (() => {
             window.onclick = function(event) {
                 if (event.target == modal) {
                   modal.style.display = "none";
+                  location.reload()
                 }
               }
         }
     }
-    
-
-    
-
     return {
         perform_go,
     };
